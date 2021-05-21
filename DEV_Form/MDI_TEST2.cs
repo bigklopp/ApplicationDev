@@ -10,12 +10,11 @@ using System.Windows.Forms;
 
 namespace DEV_Form
 {
-    public partial class Form1 : Form
+    public partial class MDI_TEST2 : Form
     {
-        public Form1()
+        public MDI_TEST2()
         {
             InitializeComponent();
         }
-
     }
 }

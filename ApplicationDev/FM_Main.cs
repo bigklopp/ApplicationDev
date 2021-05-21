@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -34,6 +35,8 @@ namespace ApplicationDev
             }
             // 버튼에 이벤트 추가.
             this.stbExit.Click += new System.EventHandler(this.stbExit_Click);
+            this.M_SYSTEM.DropDownItemClicked +=
+                new System.Windows.Forms.ToolStripItemClickedEventHandler(this.M_SYSTEM_DropDownItemClicked);
             
             //string UserName = Login.Tag.ToString();
         }
@@ -46,6 +49,24 @@ namespace ApplicationDev
         private void timer_Tick(object sender, EventArgs e)
         {
             tssNowDate.Text = DateTime.Now.ToString();
+        }
+        private void M_SYSTEM_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            // 1. 단순히 폼을 호출하는 경우.
+            //DEV_Form.MDI_TEST Form = new DEV_Form.MDI_TEST();
+            //Form.MdiParent = this;
+            //Form.Show();
+
+            // 2. 프로그램을 호출
+            Assembly assy = Assembly.LoadFrom(Application.StartupPath + @"\" + "DEV_FORM.DLL");
+            Type typeForm = assy.GetType("DEV_Form." + e.ClickedItem.Name.ToString(), true);
+            Form ShowForm = (Form)Activator.CreateInstance(typeForm);
+
+            ShowForm.MdiParent = this;
+            ShowForm.Show();
+
+
+
         }
     }
 }

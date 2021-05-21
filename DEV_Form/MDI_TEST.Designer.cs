@@ -1,7 +1,7 @@
 ﻿
 namespace DEV_Form
 {
-    partial class Form1
+    partial class MDI_TEST
     {
         /// <summary>
         ///  Required designer variable.
@@ -29,10 +29,17 @@ namespace DEV_Form
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // MDI_TEST
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+            this.Name = "MDI_TEST";
+            this.Text = "MDI_TEST";
+            this.ResumeLayout(false);
+
         }
 
         #endregion

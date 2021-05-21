@@ -33,6 +33,7 @@ namespace ApplicationDev
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.M_SYSTEM = new System.Windows.Forms.ToolStripMenuItem();
             this.MDI_TEST = new System.Windows.Forms.ToolStripMenuItem();
+            this.MDI_TEST2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.stbSearch = new System.Windows.Forms.ToolStripButton();
             this.stbInsert = new System.Windows.Forms.ToolStripButton();
@@ -46,6 +47,7 @@ namespace ApplicationDev
             this.tssUserName = new System.Windows.Forms.ToolStripStatusLabel();
             this.tssNowDate = new System.Windows.Forms.ToolStripStatusLabel();
             this.timer = new System.Windows.Forms.Timer(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -55,7 +57,8 @@ namespace ApplicationDev
             // 
             this.menuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.M_SYSTEM});
+            this.M_SYSTEM,
+            this.toolStripMenuItem1});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(800, 28);
@@ -65,7 +68,8 @@ namespace ApplicationDev
             // M_SYSTEM
             // 
             this.M_SYSTEM.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MDI_TEST});
+            this.MDI_TEST,
+            this.MDI_TEST2});
             this.M_SYSTEM.Name = "M_SYSTEM";
             this.M_SYSTEM.Size = new System.Drawing.Size(103, 24);
             this.M_SYSTEM.Text = "시스템 관리";
@@ -73,8 +77,14 @@ namespace ApplicationDev
             // MDI_TEST
             // 
             this.MDI_TEST.Name = "MDI_TEST";
-            this.MDI_TEST.Size = new System.Drawing.Size(172, 26);
+            this.MDI_TEST.Size = new System.Drawing.Size(228, 26);
             this.MDI_TEST.Text = "테스트 화면";
+            // 
+            // MDI_TEST2
+            // 
+            this.MDI_TEST2.Name = "MDI_TEST2";
+            this.MDI_TEST2.Size = new System.Drawing.Size(228, 26);
+            this.MDI_TEST2.Text = "toolStripMenuItem1";
             // 
             // toolStrip
             // 
@@ -205,6 +215,12 @@ namespace ApplicationDev
             this.timer.Interval = 1000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(159, 24);
+            this.toolStripMenuItem1.Text = "toolStripMenuItem1";
+            // 
             // FM_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -214,6 +230,7 @@ namespace ApplicationDev
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.menuStrip);
+            this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip;
             this.Name = "FM_Main";
             this.Text = "Application DEV V 1.0";
@@ -246,5 +263,7 @@ namespace ApplicationDev
         private System.Windows.Forms.ToolStripStatusLabel tssUserName;
         private System.Windows.Forms.ToolStripStatusLabel tssNowDate;
         private System.Windows.Forms.Timer timer;
+        private System.Windows.Forms.ToolStripMenuItem MDI_TEST2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
     }
 }
