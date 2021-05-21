@@ -20,6 +20,7 @@ namespace ApplicationDev
         public FM_Login()
         {
             InitializeComponent();
+            this.Tag = "FAIL";
         }
 
         private void btnPwdChg_Click(object sender, EventArgs e)
@@ -56,7 +57,7 @@ namespace ApplicationDev
                 return;
             }
 
-            SqlDataAdapter Adapter = new SqlDataAdapter("SELECT PW FROM TB_USER_LHC WHERE UserID = '" + userID + "'", Connect);
+            SqlDataAdapter Adapter = new SqlDataAdapter("SELECT PW, UserName FROM TB_USER_LHC WHERE UserID = '" + userID + "'", Connect);
             DataTable DtTemp = new DataTable();
             Adapter.Fill(DtTemp);
 
@@ -85,9 +86,10 @@ namespace ApplicationDev
             else
             {
                 MessageBox.Show("환영합니다.");
-                    //this.Tag = DtTemp.Rows[0]["UserName"].ToString();
-                //Connect.Close();
-                this.Close();
+                    this.Tag = DtTemp.Rows[0]["UserName"].ToString(); // 유저 명을 메인화면으로 보냄??
+                    //MessageBox.Show($"{this.Tag}");
+
+                    this.Close();
             }
 
             }// try
@@ -100,42 +102,16 @@ namespace ApplicationDev
             {
                 Connect.Close();
             }
+        }
 
+        
 
-
-
-            /*
-                        SqlConnection Connect1 = new SqlConnection("DATA Source = 61.105.9.203; Initial Catalog = AppDev;" +
-                            "User ID = kfqs; Password = 1234;");
-
-                        Connect1.Open();
-
-                        if (Connect1.State != ConnectionState.Open)
-                        {
-                            MessageBox.Show("데이터 베이스 연결에 실패하였습니다.");
-                            return;
-                        }
-                        string userID1 = txtID.Text;
-                        string PW1 = txtPassword.Text;
-
-                        SqlDataAdapter Adapter1 = new SqlDataAdapter("SELECT PW FROM TB_USER_LHC WHERE UserID ='" + userID1 + "'",Connect1);
-                        DataTable DtTemp1 = new DataTable();
-                        Adapter1.Fill(DtTemp1);
-                        if (DtTemp1.Rows.Count == 0)
-                        {
-                            MessageBox.Show("아이디가 없습니다.");
-                            return;
-                        }
-                        else if (DtTemp1.Rows[0]["PW"].ToString() != PW1 )
-                        {
-                            MessageBox.Show("비밀번호가 일치하지 않습니다.");
-                            return;
-                        }
-                        else
-                        {
-                            MessageBox.Show("환영합니다.!!");
-                            return;
-                        }*/
+        private void txtPassword_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnLogin_Click(null, null);
+            }
         }
     }
 }

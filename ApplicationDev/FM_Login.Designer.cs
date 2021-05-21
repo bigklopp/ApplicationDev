@@ -69,6 +69,7 @@ namespace ApplicationDev
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(309, 27);
             this.txtPassword.TabIndex = 3;
+            this.txtPassword.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPassword_KeyDown);
             // 
             // btnPwdChg
             // 
@@ -102,7 +103,7 @@ namespace ApplicationDev
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtID);
             this.Name = "FM_Login";
-            this.Text = "Form1";
+            this.Text = "LOG IN";
             this.ResumeLayout(false);
             this.PerformLayout();
 
