@@ -21,10 +21,6 @@ namespace ApplicationDev
             InitializeComponent();
         }
 
-        private void btnClose_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
 
         private void btnChgPW_Click(object sender, EventArgs e)
         {
