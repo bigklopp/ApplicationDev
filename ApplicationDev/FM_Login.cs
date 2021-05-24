@@ -44,7 +44,7 @@ namespace ApplicationDev
 
             
             string strCon = "DATA Source = 61.105.9.203; Initial Catalog = AppDev; " +
-                "User ID=kfqs; Password=1234;";
+                "User ID=kfqs1; Password=1234;";
             Connect = new SqlConnection(strCon);
             Connect.Open();
 
@@ -79,6 +79,7 @@ namespace ApplicationDev
                 {
                     MessageBox.Show("비밀번호가 3회 이상 틀렸습니다. 종료합니다.");
                     this.Close();
+                    return;
                 }
                 MessageBox.Show($"비밀번호가 일치하지 않습니다. 3회 이상 틀리면 종료합니다. 누적 {WrongPWCount} 회");
                 return;
