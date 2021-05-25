@@ -19,12 +19,12 @@ namespace ApplicationDev
             InitializeComponent();
             FM_Login Login = new FM_Login();
             Login.ShowDialog(); // FM_Main이 실행되기 전에 먼저 로그인 화면 실행
-                              // ShowDialog()로 로그인 하기 전에 Main 창이 뜨지 않도록 한다.?
-                              // Show()로 하면 동시에 Main, 로그인 창 둘 다 뜨네.
+                                // ShowDialog()로 로그인 하기 전에 Main 창이 뜨지 않도록 한다.?
+                                // Show()로 하면 동시에 Main, 로그인 창 둘 다 뜨네.
 
             //Tag를 가져와서 StatusStrip에 입력한다.
             tssUserName.Text = Login.Tag.ToString();
-            
+
             if (Login.Tag.ToString() == "FAIL")
             {
                 //Application.ExitThread();
