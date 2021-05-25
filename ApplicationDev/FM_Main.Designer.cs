@@ -93,7 +93,7 @@ namespace ApplicationDev
             // 
             this.FM_ITEM.Name = "FM_ITEM";
             this.FM_ITEM.Size = new System.Drawing.Size(167, 26);
-            this.FM_ITEM.Text = "FM_ITEM";
+            this.FM_ITEM.Text = "품목 관리";
             // 
             // toolStripMenuItem1
             // 

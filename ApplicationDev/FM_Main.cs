@@ -77,7 +77,7 @@ namespace ApplicationDev
             {
                 if (myTabControl1.TabPages[i].Name == e.ClickedItem.Name.ToString())
                 {
-                    myTabControl1.SelectedTab = myTabControl1.TabPages[i];
+                    myTabControl1.SelectedTab = myTabControl1.TabPages[i];6
                     return;
                 }
             }
