@@ -97,19 +97,21 @@ namespace DEV_Form
             // 
             // dtpStart
             // 
+            this.dtpStart.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpStart.Location = new System.Drawing.Point(846, 52);
             this.dtpStart.Name = "dtpStart";
             this.dtpStart.Size = new System.Drawing.Size(120, 27);
             this.dtpStart.TabIndex = 4;
-            this.dtpStart.Value = new System.DateTime(2021, 5, 24, 0, 0, 0, 0);
+            this.dtpStart.Value = new System.DateTime(2021, 5, 25, 10, 24, 59, 0);
             // 
             // dtpEnd
             // 
+            this.dtpEnd.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpEnd.Location = new System.Drawing.Point(993, 51);
             this.dtpEnd.Name = "dtpEnd";
             this.dtpEnd.Size = new System.Drawing.Size(119, 27);
             this.dtpEnd.TabIndex = 5;
-            this.dtpEnd.Value = new System.DateTime(2021, 5, 24, 0, 0, 0, 0);
+            this.dtpEnd.Value = new System.DateTime(2021, 5, 25, 10, 24, 59, 0);
             // 
             // label3
             // 
@@ -238,6 +240,8 @@ namespace DEV_Form
             // 
             // dgvGrid
             // 
+            this.dgvGrid.AllowUserToAddRows = false;
+            this.dgvGrid.AllowUserToDeleteRows = false;
             this.dgvGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvGrid.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.dgvGrid.Location = new System.Drawing.Point(3, 104);
@@ -265,6 +269,7 @@ namespace DEV_Form
             this.btnSave.TabIndex = 1;
             this.btnSave.Text = "저장";
             this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnAdd
             // 
@@ -335,7 +340,7 @@ namespace DEV_Form
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FM_ITEM";
-            this.Text = "FM_ITEM";
+            this.Text = "품목 관리";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FM_ITEM_Load);
             this.groupBox1.ResumeLayout(false);
