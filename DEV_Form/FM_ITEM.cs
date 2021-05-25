@@ -254,7 +254,6 @@ namespace DEV_Form
                 //}
                 //cmd.ExecuteNonQuery(); // 위에서 작성한 CommandText 구문을 실행
 
-
                 // SSMS 내에서 바로 SELECT문으로 INSERT, UPDATE 알아서 처리하는 것.
 
                 cmd.CommandText = "UPDATE TB_TestItem_LHC                                  " +
@@ -263,13 +262,12 @@ namespace DEV_Form
                                       "        ITEMDESC2 = '" + sItemDesc2 + "',            " +
                                       "        ENDFLAG = '" + "N" + "',              " +
                                       "        PRODDATE = '" + sProdDate + "',             " +
-                                      "        EDITOR = '',  " +
-                                      //"        EDITOR = '"    + Commoncs.LoginUserID + "',  " +
+                                      "        EDITOR = '" + Common.LogInID + "'," +
                                       "        EDITDATE = GETDATE()     " +
                                       "  WHERE ITEMCODE = '" + sItemCode + "'" +
                                       " IF (@@ROWCOUNT =0) " +
                                       "INSERT INTO TB_TestItem_LHC (ITEMCODE,           ITEMNAME,            ITEMDESC,           ITEMDESC2,          ENDFLAG,           PRODDATE,      MAKEDATE,     MAKER) " +
-                                      "VALUES('" + sItemCode + "','" + sItemName + "','" + sItemDesc + "','" + sItemDesc2 + "','" + "N" + "','" + sProdDate + "',GETDATE(),'')";
+                                      "VALUES('" + sItemCode + "','" + sItemName + "','" + sItemDesc + "','" + sItemDesc2 + "','" + "N" + "','" + sProdDate + $"',GETDATE(),'{Common.LogInID}')";
                 cmd.ExecuteNonQuery();
                 // 성공시 DB COMMIT
                 Transaction.Commit();
