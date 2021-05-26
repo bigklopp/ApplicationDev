@@ -250,6 +250,7 @@ namespace DEV_Form
             this.dgvGrid.RowTemplate.Height = 29;
             this.dgvGrid.Size = new System.Drawing.Size(1164, 239);
             this.dgvGrid.TabIndex = 3;
+            this.dgvGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvGrid_CellClick);
             // 
             // btnDelete
             // 
@@ -303,6 +304,7 @@ namespace DEV_Form
             this.btnPicDelete.TabIndex = 3;
             this.btnPicDelete.Text = "삭제";
             this.btnPicDelete.UseVisualStyleBackColor = true;
+            this.btnPicDelete.Click += new System.EventHandler(this.btnPicDelete_Click);
             // 
             // btnPicSave
             // 
@@ -312,6 +314,7 @@ namespace DEV_Form
             this.btnPicSave.TabIndex = 2;
             this.btnPicSave.Text = "저장";
             this.btnPicSave.UseVisualStyleBackColor = true;
+            this.btnPicSave.Click += new System.EventHandler(this.btnPicSave_Click);
             // 
             // btnPicLoad
             // 
@@ -328,9 +331,11 @@ namespace DEV_Form
             this.picItemImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.picItemImage.Location = new System.Drawing.Point(12, 26);
             this.picItemImage.Name = "picItemImage";
-            this.picItemImage.Size = new System.Drawing.Size(461, 182);
+            this.picItemImage.Size = new System.Drawing.Size(333, 182);
+            this.picItemImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picItemImage.TabIndex = 0;
             this.picItemImage.TabStop = false;
+            this.picItemImage.Click += new System.EventHandler(this.picItemImage_Click);
             // 
             // FM_ITEM
             // 

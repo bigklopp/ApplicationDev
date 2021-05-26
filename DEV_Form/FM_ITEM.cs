@@ -9,10 +9,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using ApplicationDev;
+using System.IO;
 
 namespace DEV_Form
 {
-    public partial class FM_ITEM : Form
+    public partial class FM_ITEM : Form , ChildInterFace
     {
         private SqlConnection Connect = null;
         public FM_ITEM()
@@ -298,9 +299,175 @@ namespace DEV_Form
 
                 // 지정된 파일에서 이미지를 만들어 픽쳐박스에 넣는다.
                 picItemImage.Image = Bitmap.FromFile(sImageFile);
-
             }
 
+
+        }
+
+        private void picItemImage_Click(object sender, EventArgs e)
+        {
+            // 픽쳐박스 크기 최대화 및 이전 사이즈로
+            if(this.picItemImage.Dock == System.Windows.Forms.DockStyle.Fill)
+            {
+                //이미지가 가득 채워져 있는 상태이면 원래 상태로 바꾸기.
+                this.picItemImage.Dock = System.Windows.Forms.DockStyle.None;
+            }
+            else
+            {
+                // 이미지가 가득 채워져 있지 않으면 가득 채우기
+                picItemImage.Dock = System.Windows.Forms.DockStyle.Fill;
+                // 이미지를 가장 앞으로 가지고 온다.
+                picItemImage.BringToFront();
+            }    
+        }
+
+        private void btnPicSave_Click(object sender, EventArgs e)
+        {
+            // 픽쳐박스 이미지 저장.
+            if (dgvGrid.Rows.Count == 0) return;
+            if (picItemImage.Image == null) return;
+            if (picItemImage.Tag.ToString() == "") return;
+
+            if (MessageBox.Show("선택된 이미지로 등록하시겠습니까?", "이미지 등록", MessageBoxButtons.YesNo) == DialogResult.No) return;
+            Byte[] bImage = null;
+            Connect = new SqlConnection(Common.db);
+
+            try
+            {
+                // database에다가 그림을 넣자.
+                // 바이너리 코드는 컴퓨터가 인식할 수 있는 0과 1로 구성된 이진코드
+                // 바이트 코드는 CPU가 아닌 가상 머신에서 이해할 수 있는 코드
+
+                // 파일을 불러오기 위한 파일 경로 방법 지정
+                FileStream stream = new FileStream(picItemImage.Tag.ToString(), FileMode.Open, FileAccess.Read);
+                // 읽어들인 파일을 바이너리 코드로 변환
+                BinaryReader reader = new BinaryReader(stream);
+                // 만들어진 바이너리 코드 이미지를 Byte화 하여 저장. 
+                bImage = reader.ReadBytes(Convert.ToInt32(stream.Length));
+                reader.Close();
+                stream.Close();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = Connect;
+                Connect.Open();
+
+                string sItemCode = dgvGrid.CurrentRow.Cells["ITEMCODE"].Value.ToString();
+                cmd.CommandText = "UPDATE TB_TESTITEM_LHC"      +
+                                  "   SET ITEMIMG = @IMAGE"     +
+                                  " WHERE ITEMCODE = @ITEMCODE ";
+                cmd.Parameters.AddWithValue("@IMAGE", bImage);  // @IMAGE에 bImage를 넣어서 사용
+                cmd.Parameters.AddWithValue("@ITEMCODE", sItemCode); // @ITEMCODE에 sItemCode를 넣어서 사용
+                cmd.ExecuteNonQuery();
+                Connect.Close();
+                MessageBox.Show($"이미지가 등록되었습니다.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"예외 발생 : {ex}");
+            }
+        }
+
+        private void dgvGrid_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // 선택시 해당 품목 이미지 가져오기.
+            string sItemCode = dgvGrid.CurrentRow.Cells["ITEMCODE"].Value.ToString();
+
+            Connect = new SqlConnection(Common.db);
+            Connect.Open();
+            try
+            {
+                //이미지 초기화
+                picItemImage.Image = null;
+                string ssql = $"SELECT ITEMIMG FROM TB_TESTITEM_LHC WHERE ITEMCODE = '{sItemCode}'" +
+                              $"   AND ITEMIMG IS NOT NULL"; 
+                // 이 부분 NULL이 아닌 것만 가져온다! null인 것 가져오면 아래 카운트가 1로 잡혀
+                // 예외가 발생한다. 
+                SqlDataAdapter Adapter = new SqlDataAdapter(ssql, Connect);
+                DataTable DtTemp =new DataTable();
+                Adapter.Fill(DtTemp);
+
+                if (DtTemp.Rows.Count == 0) return;
+                byte[] bImage = null;
+                bImage = (byte[])DtTemp.Rows[0]["ITEMIMG"];  // 이미지를 byte화 한다.
+
+                if(bImage != null)
+                {
+                    picItemImage.Image = new Bitmap(new MemoryStream(bImage)); // 메모리 스트림을 이용하여 파일을 그려본다.!
+                    picItemImage.BringToFront();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"예외 발생 {ex}");
+            }
+            finally
+            {
+                Connect.Close();
+            }
+        }
+
+        private void btnPicDelete_Click(object sender, EventArgs e)
+        {
+            // 품목에 저장된 이미지 삭제
+            if (this.dgvGrid.Rows.Count == 0) return;
+            if (MessageBox.Show("선택된 이미지를 삭제하시겠습니까?", "이미지 삭제", MessageBoxButtons.YesNo)
+                == DialogResult.No) return;
+
+            SqlCommand cmd = new SqlCommand();
+            SqlTransaction Tran;
+
+            Connect = new SqlConnection(sqlcon);
+            Connect.Open();
+
+            Tran = Connect.BeginTransaction("TranStart");
+            cmd.Transaction = Tran;
+            cmd.Connection = Connect;
+            try
+            {
+                string sItemcode = dgvGrid.CurrentRow.Cells["ITEMCODE"].Value.ToString();
+                cmd.CommandText = $"UPDATE TB_TESTITEM_LHC " +
+                                  $"   SET ITEMIMG = NULL" +
+                                  $" WHERE ITEMCODE = '{sItemcode}'";
+
+                cmd.ExecuteNonQuery();
+                Tran.Commit();
+
+                picItemImage.Image = null; // 성공하고 나서 표시되는 화면을 빈 칸으로
+                // 다시 바꿔줘서 이미지가 삭제된 것처럼 나타내어 준다.
+
+
+                MessageBox.Show("정상적으로 삭제하였습니다.");
+                //btnSearch_Click(null, null);(긁어온 흔적) 정상적으로 삭제된 것을 보여주기 위해 조회버튼 한 번 눌러줌.          
+            }
+            catch (Exception ex)
+            {
+                Tran.Rollback();
+                MessageBox.Show($"데이터 삭제에 실패하였습니다. : {ex}");
+            }
+            finally
+            {
+                Connect.Close();
+            }
+        }
+
+        public void Inquire()
+        {
+            btnSearch_Click(null, null);
+        }
+
+        public void DoNew()
+        {
+            btnAdd_Click(null, null);
+        }
+
+        public void Delete()
+        {
+            btnDelete_Click(null, null);
+        }
+
+        public void Save()
+        {
+            btnSave_Click(null, null);
         }
     }
 }

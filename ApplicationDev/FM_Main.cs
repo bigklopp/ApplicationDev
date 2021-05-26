@@ -33,16 +33,43 @@ namespace ApplicationDev
                 System.Environment.Exit(0);
                 //이렇게 하니 종료된다.
             }
-            // 버튼에 이벤트 추가.
+            // 버튼에 종료 이벤트 추가.
             this.stbExit.Click += new System.EventHandler(this.stbExit_Click);
+            // 드롭다운 아이템 클릭 이벤트 추가.
             this.M_SYSTEM.DropDownItemClicked +=
                 new System.Windows.Forms.ToolStripItemClickedEventHandler(this.M_SYSTEM_DropDownItemClicked);
-
+            // 닫기 버튼 클릭 이벤트 추가.
             this.stbClose.Click += new System.EventHandler(this.stbClose_Click);
-            
+            // 조회 버튼 클릭 이벤트 추가.
+            this.stbSearch.Click += new System.EventHandler(this.stbSearch_Click);
+            // 추가 버튼 클릭 이벤트 추가.
+            this.stbInsert.Click += new System.EventHandler(this.stbInsert_Click);
+            // 삭제 버튼 클릭 이벤트 추가.
+            this.stbDelete.Click += new System.EventHandler(this.stbDelete_Click);
+            // 저장 버튼 클릭 이벤트 추가.
+            this.stbSave.Click += new System.EventHandler(this.stbSave_Click);
+
             //string UserName = Login.Tag.ToString();
         }
 
+        private void stbSearch_Click(object sender, EventArgs e) 
+        {
+            ChildCommand("SEARCH");
+
+        }
+        private void stbInsert_Click(object sender, EventArgs e) 
+        {
+            ChildCommand("NEW");
+        }
+        private void stbDelete_Click(object sender, EventArgs e) 
+        {
+            ChildCommand("DELETE");
+        }
+        private void stbSave_Click(object sender, EventArgs e) 
+        {
+            ChildCommand("SAVE");
+
+        }
         private void stbExit_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -85,7 +112,32 @@ namespace ApplicationDev
             //ShowForm.Show();
             myTabControl1.AddForm(ShowForm); // 탭 페이지에 폼을 추가하여 오픈한다.
         }
+
+        private void ChildCommand(string Command)
+        {
+            if (this.myTabControl1.TabPages.Count == 0) return;
+
+            // 선택되어 있는 탭의 폼에 내가 생성한 인터페이스를 상속하도록 한다.(?)
+            var Child = myTabControl1.SelectedTab.Controls[0] as DEV_Form.ChildInterFace;
+
+            // 이 메서드를 실행할 때 입력받은 인자를 가지고 실행할 인터페이스의 메서드 선택.
+            // IF로 길게 써도 된다.
+            switch (Command)
+            { 
+                case "NEW":    Child.DoNew();      break;
+                case "SAVE":   Child.Save();       break;
+                case "SEARCH": Child.Inquire();    break;
+                case "DELETE": Child.Delete();     break;
+
+            }
+               
+        }
+
     }
+
+
+
+
 
     public partial class MDIForm : TabPage // 내용이 없으니 MDIForm TabPage라는 클래스와 다를게 없다.
     {
