@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using ApplicationDev;
 
 namespace DEV_Form
 {
@@ -282,6 +283,24 @@ namespace DEV_Form
             {
                 Connect.Close();
             }
+        }
+
+        private void btnPicLoad_Click(object sender, EventArgs e)
+        {
+            // 이미지 불러오기 및 저장, 파일 탐색기 호출
+            string sImageFile = string.Empty;
+
+            OpenFileDialog Dialog = new OpenFileDialog();
+            if (Dialog.ShowDialog() == DialogResult.OK)
+            {
+                sImageFile = Dialog.FileName;
+                picItemImage.Tag = Dialog.FileName;
+
+                // 지정된 파일에서 이미지를 만들어 픽쳐박스에 넣는다.
+                picItemImage.Image = Bitmap.FromFile(sImageFile);
+
+            }
+
         }
     }
 }

@@ -89,8 +89,8 @@ namespace ApplicationDev
                 MessageBox.Show("환영합니다.");
 
                     // 유저 명을 Common에 등록함.                                                                                                                                                                                                                        
-                    DEV_Form.Common.LogInID = txtID.Text;
-                    DEV_Form.Common.LogInName = DtTemp.Rows[0]["USERNAME"].ToString();
+                    Common.LogInID = txtID.Text;
+                    Common.LogInName = DtTemp.Rows[0]["USERNAME"].ToString();
 
 
                     this.Tag = DtTemp.Rows[0]["UserName"].ToString(); // 유저 명을 메인화면으로 보냄??

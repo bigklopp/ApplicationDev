@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using ApplicationDev;
 
 namespace DEV_Form
 {
@@ -26,7 +27,7 @@ namespace DEV_Form
         private void FM_CUST_Load(object sender, EventArgs e)
         {
                 // 원하는 날짜 픽스
-                dtpStartDate.Text = string.Format("{0:yyyy-01-01}", DateTime.Now);
+                dtpStartDate.Text = string.Format("{0:2000-01-01}", DateTime.Now);
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -42,22 +43,21 @@ namespace DEV_Form
                 }
 
                 string sCUSTCode = txtCUSTCode.Text; // 품목 코드
+                string sCUSTType = "";
                 string sCUSTName = txtCUSTName.Text; // 품목 명
+                string sBizType = string.Empty;
                 string sStartDate = dtpStartDate.Text; // 출시 시작 일자
                 string sEndDate = dtpEndDate.Text; // 출시 종료 일자
-                string sBizType = "상용차 부품";
-                string sCUSTType = "";
-
-                if (rdoCar.Checked == true) sBizType = "자동차부품";
+                if (rdoTruck.Checked == true) sBizType = "상용차 부품";
+                else if (rdoCar.Checked == true) sBizType = "자동차부품";
                 else if (rdoCut.Checked == true) sBizType = "절삭가공";
-                else if (rdoPumpCom.Checked == true) sBizType = "펌프압축";
+                else if (rdoPumpCom.Checked == true) sBizType = "펌프압축기";
 
 
 
 
                 if (chkCUSTOnly.Checked == true)
                 {
-                    sCUSTCode = "";
                     sCUSTType = "C";
                 }
 
@@ -77,7 +77,7 @@ namespace DEV_Form
                                                             $"  FROM TB_CUST_LHC WITH(NOLOCK)" +
                                                             $" WHERE CUSTCODE LIKE '%{sCUSTCode}%'" +
                                                             $"   AND CUSTNAME LIKE '%{sCUSTName}%'" +
-                                                            $"   AND BIZTYPE  = '{sBizType}'" +
+                                                            $"   AND BIZTYPE  LIKE '%{sBizType}%'" +
                                                             $"   AND CUSTTYPE LIKE '%{sCUSTType}%'" +
                                                             $"   AND FIRSTDATE BETWEEN '{sStartDate}' AND '{sEndDate}'", Connect);
                 DataTable DtTemp = new DataTable();
@@ -127,16 +127,14 @@ namespace DEV_Form
                 dgvGrid.Columns[7].Width = 200;
                 dgvGrid.Columns[8].Width = 120;
                 dgvGrid.Columns[9].Width = 200;
-                /*
-                // 컬럼의 수정 여부를 지정한다. 
+          
+                // 컬럼의 수정 여부를 지정한다.           
                 dgvGrid.Columns["CUSTCODE"].ReadOnly = true;
                 dgvGrid.Columns["CUSTTYPE"].ReadOnly = true;
+                dgvGrid.Columns["MAKER"].ReadOnly = true;
                 dgvGrid.Columns["MAKEDATE"].ReadOnly = true;
                 dgvGrid.Columns["EDITOR"].ReadOnly = true;
                 dgvGrid.Columns["EDITDATE"].ReadOnly = true;
-                */
-                dgvGrid.Columns["CUSTCODE"].ReadOnly = true;
-                dgvGrid.Columns["CUSTTYPE"].ReadOnly = true;
 
             }
             catch (Exception ex)
@@ -149,10 +147,17 @@ namespace DEV_Form
         private void btnAdd_Click(object sender, EventArgs e)
         {
             // 데이터 그리드 뷰에 신규 레코드를 추가
+            if (dgvGrid.Rows.Count == 0) return;
             DataRow dr = ((DataTable)dgvGrid.DataSource).NewRow(); // dr 정의
             ((DataTable)dgvGrid.DataSource).Rows.Add(dr); // 빈 깡통 dr을 다시 dgv에 추가.
             dgvGrid.Columns["CUSTCODE"].ReadOnly = false; // 아이템 코드는 입력 가능???
             dgvGrid.Columns["CUSTTYPE"].ReadOnly = false;
+            
+            // 마지막에 추가된 행 선택.
+            int MaxRow = dgvGrid.Rows.Count - 1;
+            dgvGrid.Rows[MaxRow].Selected = true;
+            dgvGrid.CurrentCell = dgvGrid.Rows[MaxRow].Cells[0];
+            
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -215,18 +220,26 @@ namespace DEV_Form
                 string sCustCode = dgvGrid.CurrentRow.Cells["CUSTCODE"].Value.ToString();
                 string sCustName = dgvGrid.CurrentRow.Cells["CUSTNAME"].Value.ToString();
 
-                string sCustType = dgvGrid.CurrentRow.Cells["CUSTNAME"].Value.ToString();
+                string sCustType = dgvGrid.CurrentRow.Cells["CUSTTYPE"].Value.ToString();
 
-                if (sCustType == "협력사") sCustType = "V";
-                else sCustType = "C";
+                //if (sCustType == "협력사") sCustType = "V";
+                //else sCustType = "C";
                 string sBizClass = dgvGrid.CurrentRow.Cells["BIZCLASS"].Value.ToString();
                 string sBizType = dgvGrid.CurrentRow.Cells["BIZTYPE"].Value.ToString();
 
                 string sUseFlag = dgvGrid.CurrentRow.Cells["USEFLAG"].Value.ToString();
-                if (sUseFlag == "미사용") sUseFlag = "N";
-                else sUseFlag = "Y";
+                //if (sUseFlag == "미사용") sUseFlag = "N";
+                //else sUseFlag = "Y";
                 string sFirstDate = dgvGrid.CurrentRow.Cells["FIRSTDATE"].Value.ToString();
-                
+
+                //이렇게 하는게 맞는 거구나.
+                 
+                 if (sCustType == "고객사" || sCustType == "C") sCustType = "C";
+                else sCustType = "V";
+
+                if (sUseFlag == "미사용" || sUseFlag == "N") sUseFlag = "N";
+                else sUseFlag = "Y";
+
                 SqlCommand cmd = new SqlCommand();
                 SqlTransaction Transaction;
 
@@ -272,9 +285,7 @@ namespace DEV_Form
                 // SSMS 내에서 바로 SELECT문으로 INSERT, UPDATE 알아서 처리하는 것.
 
                 cmd.CommandText = "UPDATE TB_CUST_LHC                                  " +
-                                      "    SET CUSTCODE = '" + sCustCode + "',             " +
-                                      "        CUSTTYPE = '" + sCustType + "',             " +
-                                      "        CUSTNAME = '" + sCustName + "',             " +
+                                      "   SET  CUSTNAME = '" + sCustName + "',             " +
                                       "        BIZCLASS = '" + sBizClass + "',            " +
                                       "        BIZTYPE = '" + sBizType + "',            " +
                                       "        USEFLAG = '" + sUseFlag + "',              " +
@@ -282,6 +293,7 @@ namespace DEV_Form
                                       "        EDITOR = '" + Common.LogInID + "'," +
                                       "        EDITDATE = GETDATE()     " +
                                       "  WHERE CUSTCODE = '" + sCustCode + "'" +
+                                      "    AND CUSTTYPE = '" + sCustType + "'             " +
                                       " IF (@@ROWCOUNT =0) " +
                                       "INSERT INTO TB_CUST_LHC (CUSTCODE, CUSTTYPE,          CUSTNAME,            BIZCLASS,           BIZTYPE,          USEFLAG,           FIRSTDATE,      MAKEDATE,     MAKER) " +
                                       "VALUES('" + sCustCode + "','" + sCustType + "','" + sCustName + "','" + sBizClass + "','" + sBizType + "','" + sUseFlag + "','" + sFirstDate + $"',GETDATE(),'{Common.LogInID}')";

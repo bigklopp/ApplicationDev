@@ -100,12 +100,10 @@ namespace DEV_Form
             // rdoTruck
             // 
             this.rdoTruck.AutoSize = true;
-            this.rdoTruck.Checked = true;
             this.rdoTruck.Location = new System.Drawing.Point(6, 26);
             this.rdoTruck.Name = "rdoTruck";
             this.rdoTruck.Size = new System.Drawing.Size(110, 24);
             this.rdoTruck.TabIndex = 5;
-            this.rdoTruck.TabStop = true;
             this.rdoTruck.Text = "상용차 부품";
             this.rdoTruck.UseVisualStyleBackColor = true;
             // 
@@ -116,7 +114,6 @@ namespace DEV_Form
             this.rdoCar.Name = "rdoCar";
             this.rdoCar.Size = new System.Drawing.Size(110, 24);
             this.rdoCar.TabIndex = 6;
-            this.rdoCar.TabStop = true;
             this.rdoCar.Text = "자동차 부품";
             this.rdoCar.UseVisualStyleBackColor = true;
             // 
@@ -127,7 +124,6 @@ namespace DEV_Form
             this.rdoCut.Name = "rdoCut";
             this.rdoCut.Size = new System.Drawing.Size(90, 24);
             this.rdoCut.TabIndex = 7;
-            this.rdoCut.TabStop = true;
             this.rdoCut.Text = "절삭가공";
             this.rdoCut.UseVisualStyleBackColor = true;
             // 
@@ -138,7 +134,6 @@ namespace DEV_Form
             this.rdoPumpCom.Name = "rdoPumpCom";
             this.rdoPumpCom.Size = new System.Drawing.Size(105, 24);
             this.rdoPumpCom.TabIndex = 8;
-            this.rdoPumpCom.TabStop = true;
             this.rdoPumpCom.Text = "펌프압축기";
             this.rdoPumpCom.UseVisualStyleBackColor = true;
             // 
@@ -289,7 +284,7 @@ namespace DEV_Form
             this.Controls.Add(this.groupBox2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FM_CUST";
-            this.Text = "거래처 마스터";
+            this.Text = "거래처 관리";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FM_CUST_Load);
             this.groupBox1.ResumeLayout(false);
