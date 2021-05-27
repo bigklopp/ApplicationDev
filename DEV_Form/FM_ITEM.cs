@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
-using ApplicationDev;
 using System.IO;
 
 namespace DEV_Form
@@ -20,7 +19,7 @@ namespace DEV_Form
         {
             InitializeComponent();
         }
-        private string sqlcon = "DATA Source = 61.105.9.203; Initial Catalog = AppDev; " +
+        private string sqlcon = "DATA Source = 222.235.141.8; Initial Catalog = AppDev; " +
                 "User ID=kfqs1; Password=1234;";
 
         private void FM_ITEM_Load(object sender, EventArgs e)
@@ -150,6 +149,7 @@ namespace DEV_Form
         private void btnAdd_Click(object sender, EventArgs e)
         {
             // 데이터 그리드 뷰에 신규 레코드를 추가
+            if (this.dgvGrid.Rows.Count == 0) return;
             DataRow dr = ((DataTable) dgvGrid.DataSource).NewRow(); // dr 정의
             ((DataTable)dgvGrid.DataSource).Rows.Add(dr); // 빈 깡통 dr을 다시 dgv에 추가.
             dgvGrid.Columns["ITEMCODE"].ReadOnly = false; // 아이템 코드는 입력 가능???

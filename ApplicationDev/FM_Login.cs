@@ -8,14 +8,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DEV_Form;
 
 namespace ApplicationDev
 {
     public partial class FM_Login : Form
     {
         private SqlConnection Connect = null; // 데이터 베이스 접속 정보 관리
-        private SqlTransaction Tran; // DB 관리 권한
-        private SqlCommand cmd = new SqlCommand(); // DB 명령 전달
+        //private SqlTransaction Tran; // DB 관리 권한
+        //private SqlCommand cmd = new SqlCommand(); // DB 명령 전달
         private int WrongPWCount = 0;
         public FM_Login()
         {
@@ -43,7 +44,7 @@ namespace ApplicationDev
             {
 
             
-            string strCon = "DATA Source = 61.105.9.203; Initial Catalog = AppDev; " +
+            string strCon = "DATA Source = 222.235.141.8; Initial Catalog = AppDev; " +
                 "User ID=kfqs1; Password=1234;";
             Connect = new SqlConnection(strCon);
             Connect.Open();
@@ -89,8 +90,8 @@ namespace ApplicationDev
                 MessageBox.Show("환영합니다.");
 
                     // 유저 명을 Common에 등록함.                                                                                                                                                                                                                        
-                    Common.LogInID = txtID.Text;
-                    Common.LogInName = DtTemp.Rows[0]["USERNAME"].ToString();
+                    DEV_Form.Common.LogInID = txtID.Text;
+                    DEV_Form.Common.LogInName = DtTemp.Rows[0]["USERNAME"].ToString();
 
 
                     this.Tag = DtTemp.Rows[0]["UserName"].ToString(); // 유저 명을 메인화면으로 보냄??

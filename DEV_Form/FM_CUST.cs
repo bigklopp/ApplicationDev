@@ -8,11 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
-using ApplicationDev;
 
 namespace DEV_Form
 {
-    public partial class FM_CUST : Form
+    public partial class FM_CUST : Form, ChildInterFace
     {
         private SqlConnection Connect = null;
 
@@ -21,7 +20,7 @@ namespace DEV_Form
             InitializeComponent();
         }
 
-        private string sqlcon = "DATA Source = 61.105.9.203; Initial Catalog = AppDev; " +
+        private string sqlcon = "DATA Source = 222.235.141.8; Initial Catalog = AppDev; " +
                 "User ID=kfqs1; Password=1234;";
 
         private void FM_CUST_Load(object sender, EventArgs e)
@@ -136,7 +135,6 @@ namespace DEV_Form
                 dgvGrid.Columns["MAKEDATE"].ReadOnly = true;
                 dgvGrid.Columns["EDITOR"].ReadOnly = true;
                 dgvGrid.Columns["EDITDATE"].ReadOnly = true;
-                */
                 dgvGrid.Columns["CUSTCODE"].ReadOnly = true;
                 dgvGrid.Columns["CUSTTYPE"].ReadOnly = true;
 
@@ -243,7 +241,7 @@ namespace DEV_Form
 
                 if (sUseFlag == "미사용" || sUseFlag == "N") sUseFlag = "N";
                 else sUseFlag = "Y";
-                string sFirstDate = dgvGrid.CurrentRow.Cells["FIRSTDATE"].Value.ToString();
+                //string sFirstDate = dgvGrid.CurrentRow.Cells["FIRSTDATE"].Value.ToString();
                 
                 SqlCommand cmd = new SqlCommand();
                 SqlTransaction Transaction;
@@ -316,6 +314,26 @@ namespace DEV_Form
             {
                 Connect.Close();
             }
+
+        }
+        public void Inquire()
+        {
+            btnSearch_Click(null, null);
+        }
+
+        public void DoNew()
+        {
+            btnAdd_Click(null, null);
+        }
+
+        public void Delete()
+        {
+            btnDelete_Click(null, null);
+        }
+
+        public void Save()
+        {
+            btnSave_Click(null, null);
         }
     }
 }

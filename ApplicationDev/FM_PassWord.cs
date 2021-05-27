@@ -29,7 +29,7 @@ namespace ApplicationDev
 
             // 데이터 베이스에 접속 한다.  
 
-            string strCon = "DATA Source = 61.105.9.203; Initial Catalog = AppDev; " +
+            string strCon = "DATA Source = 222.235.141.8; Initial Catalog = AppDev; " +
                 "User ID=kfqs1; Password=1234;";
 
             Connect = new SqlConnection(strCon);
@@ -93,7 +93,7 @@ namespace ApplicationDev
 
             //연습
             /*
-             string strCon1 = "DATA Source = 61.105.9.203; Initial Catalog = AppDev;" +
+             string strCon1 = "DATA Source = 222.235.141.8; Initial Catalog = AppDev;" +
                  "User ID =kfqs; Password =1234";
              SqlConnection Connect1 = new SqlConnection(strCon1);
              Connect1.Open();
