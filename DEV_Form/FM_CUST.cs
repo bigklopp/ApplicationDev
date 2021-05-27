@@ -58,6 +58,7 @@ namespace DEV_Form
 
                 if (chkCUSTOnly.Checked == true)
                 {
+                    sCUSTCode = "";
                     sCUSTType = "C";
                 }
 
@@ -128,13 +129,16 @@ namespace DEV_Form
                 dgvGrid.Columns[8].Width = 120;
                 dgvGrid.Columns[9].Width = 200;
           
-                // 컬럼의 수정 여부를 지정한다.           
+                // 컬럼의 수정 여부를 지정한다. 
                 dgvGrid.Columns["CUSTCODE"].ReadOnly = true;
                 dgvGrid.Columns["CUSTTYPE"].ReadOnly = true;
                 dgvGrid.Columns["MAKER"].ReadOnly = true;
                 dgvGrid.Columns["MAKEDATE"].ReadOnly = true;
                 dgvGrid.Columns["EDITOR"].ReadOnly = true;
                 dgvGrid.Columns["EDITDATE"].ReadOnly = true;
+                */
+                dgvGrid.Columns["CUSTCODE"].ReadOnly = true;
+                dgvGrid.Columns["CUSTTYPE"].ReadOnly = true;
 
             }
             catch (Exception ex)
@@ -239,7 +243,8 @@ namespace DEV_Form
 
                 if (sUseFlag == "미사용" || sUseFlag == "N") sUseFlag = "N";
                 else sUseFlag = "Y";
-
+                string sFirstDate = dgvGrid.CurrentRow.Cells["FIRSTDATE"].Value.ToString();
+                
                 SqlCommand cmd = new SqlCommand();
                 SqlTransaction Transaction;
 

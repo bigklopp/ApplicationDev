@@ -52,6 +52,7 @@ namespace ApplicationDev
             this.tssNowDate = new System.Windows.Forms.ToolStripStatusLabel();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.myTabControl1 = new ApplicationDev.MyTabControl();
+            this.FM_CUST = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -254,6 +255,12 @@ namespace ApplicationDev
             this.myTabControl1.SelectedIndex = 0;
             this.myTabControl1.Size = new System.Drawing.Size(800, 313);
             this.myTabControl1.TabIndex = 4;
+            // 
+            // FM_CUST
+            // 
+            this.FM_CUST.Name = "FM_CUST";
+            this.FM_CUST.Size = new System.Drawing.Size(172, 26);
+            this.FM_CUST.Text = "거래처 관리";
             // 
             // FM_Main
             // 
